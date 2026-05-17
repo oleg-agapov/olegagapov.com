@@ -3,7 +3,8 @@ import { ref, onMounted, nextTick } from 'vue';
 import { CreateMLCEngine } from '@mlc-ai/web-llm';
 import systemPrompt from '../data/oleg-context.md?raw';
 
-const MODEL = 'Llama-3.2-1B-Instruct-q4f16_1-MLC';
+//const MODEL = 'Llama-3.2-1B-Instruct-q4f16_1-MLC';
+const MODEL = 'Llama-3.2-3B-Instruct-q4f16_1-MLC';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
@@ -11,6 +12,7 @@ const messages = ref<Message[]>([]);
 const input = ref('');
 const status = ref<'loading' | 'ready' | 'generating'>('loading');
 const loadingText = ref('Loading…');
+const loadingPct = ref(0);
 const chatEl = ref<HTMLElement | null>(null);
 
 let engine: Awaited<ReturnType<typeof CreateMLCEngine>> | null = null;
@@ -25,8 +27,8 @@ const suggestions = [
 onMounted(async () => {
   engine = await CreateMLCEngine(MODEL, {
     initProgressCallback: (p) => {
-      const pct = Math.round((p.progress ?? 0) * 100);
-      loadingText.value = `Loading Oleg's brain… ${pct}%`;
+      loadingPct.value = Math.round((p.progress ?? 0) * 100);
+      loadingText.value = `Loading… ${loadingPct.value}%`;
     },
   });
   status.value = 'ready';
@@ -55,7 +57,7 @@ async function submit() {
       ...messages.value.slice(0, -1),
     ],
     stream: true,
-    temperature: 0.3,
+    temperature: 0.2,
   });
 
   for await (const chunk of stream) {
@@ -81,24 +83,30 @@ function onKeydown(e: KeyboardEvent) {
 </script>
 
 <template>
+  <!-- Bottom loading stripe -->
+  <Teleport to="body">
+    <div
+      v-if="status === 'loading'"
+      class="fixed top-0 left-0 right-0 h-0.5 bg-gray-200 z-50"
+    >
+      <div
+        class="h-full bg-terra transition-all duration-300 ease-out"
+        :style="{ width: `max(${loadingPct}%, 2%)` }"
+      />
+    </div>
+  </Teleport>
+
   <!-- Chat bubbles -->
   <div
-    v-if="messages.length > 0 || status === 'loading'"
+    v-if="messages.length > 0"
     ref="chatEl"
     class="flex flex-col gap-4 pb-2"
   >
-    <!-- Loading state -->
-    <div v-if="status === 'loading'" class="flex flex-col gap-1">
-      <span class="font-mono text-xs tracking-widest text-terra uppercase">OLEG</span>
-      <div class="bg-orange-100 border border-orange-100 rounded-2xl px-4 py-3 text-sm text-gray-500 max-w-sm">
-        {{ loadingText }}
-      </div>
-    </div>
 
     <template v-for="(msg, i) in messages" :key="i">
       <!-- User message -->
       <div v-if="msg.role === 'user'" class="flex justify-end">
-        <span class="bg-gray-900 text-white rounded-full px-4 py-2 text-sm max-w-xs text-right">
+        <span class="bg-gray-900 text-white rounded-full px-4 py-2 text-sm1 max-w-xs text-right">
           {{ msg.content }}
         </span>
       </div>
@@ -106,7 +114,7 @@ function onKeydown(e: KeyboardEvent) {
       <!-- Assistant message -->
       <div v-else class="flex flex-col gap-1">
         <span class="font-mono text-xs tracking-widest text-terra uppercase">OLEG</span>
-        <div class="bg-orange-100 border border-orange-100 rounded-2xl px-4 py-3 text-sm text-gray-800 max-w-sm leading-relaxed">
+        <div class="bg-terra-soft border border-orange-100 rounded-2xl px-4 py-3 text-sm1 text-gray-800 max-w-sm leading-relaxed">
           <span v-if="msg.content">{{ msg.content }}</span>
           <span v-else class="text-gray-400 animate-pulse">…</span>
         </div>
@@ -130,7 +138,7 @@ function onKeydown(e: KeyboardEvent) {
           class="h-1.5 w-1.5 rounded-full transition-colors"
           :class="status === 'ready' ? 'bg-terra' : 'bg-gray-300 animate-pulse'"
         />
-        Oleg's page
+        {{ status === 'loading' ? loadingText : "Oleg's page" }}
       </span>
       <button
         :disabled="status !== 'ready' || !input.trim()"
