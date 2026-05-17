@@ -18,6 +18,16 @@ import '../styles/global.css';
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-white text-gray-900 antialiased">
+    <header class="px-6 md:px-14 py-5 md:py-7 border-b border-gray-200 bg-cream font-body">
+      <nav class="max-w-3xl mx-auto flex flex-wrap items-center gap-4 md:gap-7">
+        {(['Home', 'About', 'Courses'] as const).map((link) => (
+          <a
+            href={link === 'Home' ? '/olegagapov.com' : `/olegagapov.com/${link.toLowerCase()}`}
+            class="font-display text-base md:text-lg text-gray-800 hover:text-terra transition-colors"
+          >{link}</a>
+        ))}
+      </nav>
+    </header>
     <slot />
   </body>
 </html>

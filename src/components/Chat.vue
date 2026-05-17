@@ -106,15 +106,15 @@ function onKeydown(e: KeyboardEvent) {
     <template v-for="(msg, i) in messages" :key="i">
       <!-- User message -->
       <div v-if="msg.role === 'user'" class="flex justify-end">
-        <span class="bg-gray-900 text-white rounded-full px-4 py-2 text-sm1 max-w-xs text-right">
+        <span class="bg-gray-900 text-white rounded-full px-4 py-2 max-w-md text-right">
           {{ msg.content }}
         </span>
       </div>
 
       <!-- Assistant message -->
       <div v-else class="flex flex-col gap-1">
-        <span class="font-mono text-xs tracking-widest text-terra uppercase">OLEG</span>
-        <div class="bg-terra-soft border border-orange-100 rounded-2xl px-4 py-3 text-sm1 text-gray-800 max-w-sm leading-relaxed">
+        <span class="font-mono text-xs tracking-widest text-terra uppercase">OLEG'S AI</span>
+        <div class="bg-terra-soft border border-orange-100 rounded-2xl px-4 py-3 text-gray-800 max-w-xl leading-relaxed">
           <span v-if="msg.content">{{ msg.content }}</span>
           <span v-else class="flex items-center gap-1 h-4">
             <span class="w-1.5 h-1.5 rounded-full bg-gray-600 animate-bounce [animation-delay:0ms]" />
