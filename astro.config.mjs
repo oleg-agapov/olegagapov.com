@@ -4,6 +4,9 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@astrojs/vue';
 
 export default defineConfig({
+  // site: 'https://olegagapov.com',
+  site: 'https://oleg-agapov.github.io',
+  base: '/olegagapov.com',
   integrations: [vue()],
   vite: {
     plugins: [tailwindcss()],

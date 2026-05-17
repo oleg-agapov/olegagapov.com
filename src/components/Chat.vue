@@ -117,9 +117,9 @@ function onKeydown(e: KeyboardEvent) {
         <div class="bg-terra-soft border border-orange-100 rounded-2xl px-4 py-3 text-sm1 text-gray-800 max-w-sm leading-relaxed">
           <span v-if="msg.content">{{ msg.content }}</span>
           <span v-else class="flex items-center gap-1 h-4">
-            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce [animation-delay:0ms]" />
-            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce [animation-delay:150ms]" />
-            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce [animation-delay:300ms]" />
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-600 animate-bounce [animation-delay:0ms]" />
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-600 animate-bounce [animation-delay:150ms]" />
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-600 animate-bounce [animation-delay:300ms]" />
           </span>
         </div>
       </div>
