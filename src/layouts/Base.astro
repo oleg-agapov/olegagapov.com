@@ -29,5 +29,10 @@ import '../styles/global.css';
       </nav>
     </header>
     <slot />
-  </body>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/olegagapov.com/sw.js')
+    }
+  </script>
+</body>
 </html>
