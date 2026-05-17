@@ -116,7 +116,11 @@ function onKeydown(e: KeyboardEvent) {
         <span class="font-mono text-xs tracking-widest text-terra uppercase">OLEG</span>
         <div class="bg-terra-soft border border-orange-100 rounded-2xl px-4 py-3 text-sm1 text-gray-800 max-w-sm leading-relaxed">
           <span v-if="msg.content">{{ msg.content }}</span>
-          <span v-else class="text-gray-400 animate-pulse">…</span>
+          <span v-else class="flex items-center gap-1 h-4">
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce [animation-delay:0ms]" />
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce [animation-delay:150ms]" />
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce [animation-delay:300ms]" />
+          </span>
         </div>
       </div>
     </template>
@@ -128,7 +132,7 @@ function onKeydown(e: KeyboardEvent) {
       v-model="input"
       placeholder="Ask me anything…"
       rows="2"
-      :disabled="status !== 'ready'"
+      :disabled="status === 'generating'"
       class="font-body w-full bg-transparent leading-relaxed text-gray-800 placeholder-gray-400 outline-none resize-none disabled:opacity-50"
       @keydown="onKeydown"
     />
@@ -141,7 +145,7 @@ function onKeydown(e: KeyboardEvent) {
         {{ status === 'loading' ? loadingText : "Oleg's page" }}
       </span>
       <button
-        :disabled="status !== 'ready' || !input.trim()"
+        :disabled="status === 'generating' || !input.trim()"
         class="flex items-center gap-1.5 rounded-full bg-terra px-4 py-1.5 text-xs font-medium text-white hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         @click="submit"
       >
@@ -155,7 +159,7 @@ function onKeydown(e: KeyboardEvent) {
     <button
       v-for="q in suggestions"
       :key="q"
-      :disabled="status !== 'ready'"
+      :disabled="status === 'generating'"
       class="font-body rounded-full border border-gray-300 bg-transparent px-4 py-1.5 text-xs text-gray-600 hover:border-terra hover:text-gray-800 cursor-pointer transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       @click="useSuggestion(q)"
     >
