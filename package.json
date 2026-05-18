@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/vue": "^6.0.0",
+    "@duckdb/duckdb-wasm": "^1.33.1-dev45.0",
     "@mlc-ai/web-llm": "^0.2.83",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.0.0",

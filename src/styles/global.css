@@ -4,6 +4,9 @@
 
 @theme {
   --color-cream: #F7F2EA;
+  --color-cream-card: #EDE7DC;
+  --color-cream-editor: #E6DFCF;
+  --color-cream-border: #DDD5C6;
   --color-terra: #D9542B;
   --color-terra-soft: #F5D9C9;
   --font-display: 'Fraunces', Georgia, serif;

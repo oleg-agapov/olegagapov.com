@@ -10,5 +10,8 @@ export default defineConfig({
   integrations: [vue()],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      exclude: ['@duckdb/duckdb-wasm'],
+    },
   },
 });
