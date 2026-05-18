@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue';
 import { CreateMLCEngine } from '@mlc-ai/web-llm';
+import { marked } from 'marked';
 import systemPrompt from '../data/oleg-context.md?raw';
 
 //const MODEL = 'Llama-3.2-1B-Instruct-q4f16_1-MLC';
@@ -76,6 +77,10 @@ function useSuggestion(q: string) {
   submit();
 }
 
+function renderMarkdown(content: string) {
+  return marked.parse(content) as string;
+}
+
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
@@ -117,7 +122,7 @@ function onKeydown(e: KeyboardEvent) {
       <div v-else class="flex flex-col gap-1">
         <span class="font-mono text-xs tracking-widest text-terra uppercase">OLEG'S AI</span>
         <div class="bg-terra-soft border border-orange-100 rounded-2xl px-4 py-3 text-gray-800 max-w-xl leading-relaxed">
-          <span v-if="msg.content">{{ msg.content }}</span>
+          <div v-if="msg.content" class="prose prose-sm max-w-none" v-html="renderMarkdown(msg.content)" />
           <span v-else class="flex items-center gap-1 h-4">
             <span class="w-1.5 h-1.5 rounded-full bg-gray-600 animate-bounce [animation-delay:0ms]" />
             <span class="w-1.5 h-1.5 rounded-full bg-gray-600 animate-bounce [animation-delay:150ms]" />
