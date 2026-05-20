@@ -236,9 +236,9 @@ onMounted(async () => {
         <!-- Back link -->
         <div class="pt-5 px-6">
           <a
-            href="/olegagapov.com"
+            href="/olegagapov.com/courses"
             class="font-mono text-[11px] text-stone-400 no-underline tracking-wide hover:text-terra transition-colors block mb-5"
-          >← Home</a>
+          >← Courses</a>
         </div>
 
         <!-- Brand -->
